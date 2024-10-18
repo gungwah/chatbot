@@ -14,7 +14,7 @@ st.markdown("made by **Agung Ngurah Oka Abhina** BUID 15387312. :medal: :medal: 
 prompt = st.text_input("Enter your prompt:")
 
 # Textbox for number of tokens
-num_tokens = st.number_input("Number of tokens:", value=20)
+num_tokens =  st.slider("Number of tokens", 10, 100, 25)
 
 # Initialize the GPT-2 pipeline
 generator = pipeline('text-generation', model='gpt2')
