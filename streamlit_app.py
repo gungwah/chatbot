@@ -22,10 +22,10 @@ generator = pipeline('text-generation', model='gpt2')
 # Function to generate text
 def generate_text(prompt, num_tokens, creativity):
     if creativity == "High":
-        # Higher temperature for more creative output
+        # Higher temperature  and do_sample = true for more creative output
         return generator(prompt, max_length=num_tokens, temperature=1.0, do_sample=True)[0]['generated_text']
     else:
-        # Lower temperature for more predictable output
+        # Lower temperature do_sample = false for more predictable output
         return generator(prompt, max_length=num_tokens, temperature=0.6, do_sample=False)[0]['generated_text']
 
 
