@@ -1,5 +1,5 @@
 import streamlit as st
-from transformers import pipeline, set_seed
+from transformers import pipeline
 
 # Show title and description.
 st.title("Deploying GPT2")
