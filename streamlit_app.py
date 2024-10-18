@@ -6,19 +6,13 @@ import os
 st.title("Deploying GPT2")
 st.write(
     "This is a simple app that uses OpenAI's GPT-2 model to generate responses. "
-    "made by Agung Ngurah Oka Abhina BUID 15387312"
+    ""
 )
+st.markdown("made by **Agung Ngurah Oka Abhina** BUID 15387312. :medal: :medal: :tada:")
 
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
 
 os.environ["OPENAI_API_KEY"] = st.secrets['MyOpenAIKey']
 
-# openai_api_key = st.text_input("OpenAI API Key", type="password")
-# if not openai_api_key:
-#     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-# else:
 
     # Create an OpenAI client.
 client = OpenAI()
