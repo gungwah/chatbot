@@ -34,8 +34,8 @@ if st.button("Generate Text"):
     creative_response = generate_text(prompt, num_tokens, "High")
     predictable_response = generate_text(prompt, num_tokens, "Low")
 
-    st.header("Creative Response:")
+    st.subheader("Creative Response:", divider="gray")
     st.write(creative_response)
 
-    st.header("Predictable Response:")
+    st.subheader("Predictable Response:", divider="gray")
     st.write(predictable_response)
