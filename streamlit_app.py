@@ -1,6 +1,5 @@
 import streamlit as st
-from openai import OpenAI
-import os
+from transformers import pipeline, set_seed
 
 # Show title and description.
 st.title("Deploying GPT2")
@@ -11,43 +10,34 @@ st.write(
 st.markdown("made by **Agung Ngurah Oka Abhina** BUID 15387312. :medal: :medal: :tada:")
 
 
-os.environ["OPENAI_API_KEY"] = st.secrets['MyOpenAIKey']
+# Textbox for user prompt
+prompt = st.text_input("Enter your prompt:")
 
+# Textbox for number of tokens
+num_tokens = st.number_input("Number of tokens:", min_value=10, max_value=250, value=50)
 
-    # Create an OpenAI client.
-client = OpenAI()
+# Initialize the GPT-2 pipeline
+generator = pipeline('text-generation', model='gpt2')
 
-    # Create a session state variable to store the chat messages. This ensures that the
-    # messages persist across reruns.
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+# Function to generate text
+def generate_text(prompt, num_tokens, creativity):
+    set_seed(42)  # For reproducibility, optional
+    if creativity == "High":
+        # Higher temperature for more creative output
+        return generator(prompt, max_length=num_tokens, temperature=1.0, do_sample=True)[0]['generated_text']
+    else:
+        # Lower temperature for more predictable output
+        return generator(prompt, max_length=num_tokens, temperature=0.7, do_sample=True)[0]['generated_text']
 
-    # Display the existing chat messages via `st.chat_message`.
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+# Button to generate text
+if st.button("Generate Text"):
+    # Generate responses with different creativity levels
+    creative_response = generate_text(prompt, num_tokens, "High")
+    predictable_response = generate_text(prompt, num_tokens, "Low")
 
-    # Create a chat input field to allow the user to enter a message. This will display
-    # automatically at the bottom of the page.
-if prompt := st.chat_input("What is up?"):
+    # Display the responses
+    st.header("Creative Response:")
+    st.write(creative_response)
 
-        # Store and display the current prompt.
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
-
-        # Generate a response using the OpenAI API.
-    stream = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-            stream=True,
-        )
-
-        # Stream the response to the chat using `st.write_stream`, then store it in 
-        # session state.
-    with st.chat_message("assistant"):
-        response = st.write_stream(stream)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.header("Predictable Response:")
+    st.write(predictable_response)
