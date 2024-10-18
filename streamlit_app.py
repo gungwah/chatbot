@@ -26,7 +26,7 @@ def generate_text(prompt, num_tokens, creativity):
         return generator(prompt, max_length=num_tokens, temperature=1.0, do_sample=True)[0]['generated_text']
     else:
         # Lower temperature for more predictable output
-        return generator(prompt, max_length=num_tokens, temperature=0.6, do_sample=True)[0]['generated_text']
+        return generator(prompt, max_length=num_tokens, temperature=0.6, do_sample=False)[0]['generated_text']
 
 
 if st.button("Generate Text"):
