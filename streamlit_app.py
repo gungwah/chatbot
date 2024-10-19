@@ -1,7 +1,6 @@
 import streamlit as st
 from transformers import pipeline
 
-# Show title and description.
 st.title("Deploying GPT2")
 st.write(
     "This is a simple app that uses OpenAI's GPT-2 model to generate responses. "
@@ -10,13 +9,10 @@ st.write(
 st.markdown("made by **Agung Ngurah Oka Abhina** BUID 15387312. :medal: :medal: :tada:")
 
 
-# Textbox for user prompt
 prompt = st.text_input("Enter your prompt:")
 
-# Textbox for number of tokens
 num_tokens =  st.slider("Number of tokens", 10, 100, 25)
 
-# Initialize the GPT-2 pipeline
 generator = pipeline('text-generation', model='gpt2')
 
 # Function to generate text
@@ -27,6 +23,8 @@ def generate_text(prompt, num_tokens, creativity):
     else:
         # Lower temperature do_sample = false for more predictable output
         return generator(prompt, max_length=num_tokens, temperature=0.6, do_sample=False)[0]['generated_text']
+    
+    #The creative one will produce something different for each run, while the less creative one will produce something similar for each run.
 
 
 if st.button("Generate Text"):
